@@ -14,7 +14,7 @@ let package = Package(
         .target(
             name: "ClaudeChatPanel",
             path: ".",
-            exclude: ["hosts/node", "hosts/csharp", "examples", "README.md", "PROTOCOL.md", "LICENSE", "NOTICE.md"],
+            exclude: ["hosts/node", "hosts/csharp", "hosts/rust", "examples", "README.md", "PROTOCOL.md", "LICENSE", "NOTICE.md"],
             sources: ["hosts/swift/Sources/ClaudeChatPanel"],
             resources: [.copy("web")]
         ),

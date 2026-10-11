@@ -2,7 +2,7 @@
 
 A chat panel for Claude Code that you can embed in any app. It is a web page
 that renders the session, and a small host that runs the real `claude` CLI
-underneath. The host exists in TypeScript, Swift and C#.
+underneath. The host exists in Rust, TypeScript, Swift and C#.
 
 | Light | Dark |
 |---|---|
@@ -27,6 +27,7 @@ The page shows:
 ```
 web/            the page: index.html, chat.js, chat.css, bridge.js, vendor/
 PROTOCOL.md     page ⇄ host ⇄ CLI, everything a new host needs
+hosts/rust/     Rust: the session crate, a wry window and a command-line example
 hosts/node/     TypeScript: the session library and a test server
 hosts/swift/    Swift (macOS): the session and a WKWebView / SwiftUI view
 hosts/csharp/   C# (.NET 8): the session and WebView2 glue
@@ -35,6 +36,7 @@ examples/       a Swift command-line example
 
 Requirements:
 - Claude Code installed and signed in (`claude` on the PATH);
+- for Rust, 1.88 or newer;
 - for TypeScript, Node.js 22.6 or newer;
 - for Swift, macOS 12 or newer;
 - for C#, .NET 8.
@@ -47,6 +49,37 @@ node hosts/node/serve.ts --cwd ~/some/project -- --model haiku
 
 Then open the address it prints. Arguments after `--` go to `claude`. Each run
 starts a new session unless you pass `--session <uuid>`.
+
+## Rust
+
+The crate runs the session and depends only on `serde_json`. Any web view can
+show the page; with wry, `bridge.js` uses its IPC.
+
+```rust
+use claude_chat_panel::{HostAction, Options, Session, page_call};
+
+let mut options = Options::new(session_id, "/path/to/project");
+options.extra_args = vec!["--model".into(), "sonnet".into()];
+// Events arrive on the session's thread: hand them to the UI thread.
+let mut session = Session::new(options, move |event| proxy.send(event));
+
+// On the UI thread:
+webview.evaluate_script(&page_call("events", &[event]));
+match session.handle_page_message(&ipc_body) {          // send, stop, perm
+    Some(HostAction::Ready) => webview.evaluate_script(&page_call("history", &session.history())),
+    Some(HostAction::Link(url)) => open(url),
+    Some(HostAction::Copy(text)) => clipboard.set(text),
+    _ => {}
+}
+```
+
+Examples:
+- `cargo run --example wry_window -- /path/to/project` opens the chat in a
+  window, using tao and wry;
+- `cargo run --example stream -- "question" /path/to/project` runs the
+  session without the page.
+
+Run the tests with `cargo test` inside `hosts/rust`.
 
 ## TypeScript
 

@@ -1,0 +1,17 @@
+[package]
+name = "claude-chat-panel"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+description = "A chat panel over a Claude Code session (claude -p, stream-json): the session host"
+license = "MIT"
+repository = "https://github.com/simscorpbs/claude-chat-panel"
+include = ["src/**", "examples/**", "Cargo.toml"]
+
+[dependencies]
+serde_json = "1"
+
+[dev-dependencies]
+# Only for the window example.
+tao = "0.34"
+wry = "0.53"

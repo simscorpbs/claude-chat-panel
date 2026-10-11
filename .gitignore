@@ -5,3 +5,5 @@ bin/
 obj/
 *.tmp
 .DS_Store
+target/
+Cargo.lock
