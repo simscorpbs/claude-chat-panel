@@ -12,6 +12,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(WebView2)' == 'true'">
     <TargetFramework>net8.0-windows</TargetFramework>
+    <!-- The WebView2 package ships its WinForms and WPF controls too, which
+         need the Windows desktop framework. -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
     <DefineConstants>$(DefineConstants);WEBVIEW2</DefineConstants>
   </PropertyGroup>
   <ItemGroup Condition="'$(WebView2)' == 'true'">

@@ -137,9 +137,11 @@ var panel = new ChatPanelWebView2(webView.CoreWebView2, session, webFolder: @"pa
 ```
 
 `ClaudeChatSession` uses only the base library. `ChatPanelWebView2` serves
-`web/` through a virtual host and relays messages in both directions. The C#
-host follows the same protocol as the other two, but has not been compiled or
-run yet: treat it as a starting point.
+`web/` through a virtual host and relays messages in both directions.
+`dotnet run --project examples/csharp-cli -- "question" C:\path\to\project`
+runs the session without the page and checks the protocol's messages. An npm
+install of Claude Code (`claude.cmd`) and the native installer (`claude.exe`)
+both work.
 
 ## Another language
 

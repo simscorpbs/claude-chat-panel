@@ -4,6 +4,7 @@
 
 #if WEBVIEW2
 using System.Text;
+using System.Threading;
 using System.Text.Json.Nodes;
 using Microsoft.Web.WebView2.Core;
 
