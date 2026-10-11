@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The session alone needs nothing beyond .NET 8. For the WebView2 glue,
+       build with -p:WebView2=true (Windows), which adds the package and
+       defines WEBVIEW2. -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>12</LangVersion>
+    <RootNamespace>ClaudeChatPanel</RootNamespace>
+    <Description>A chat panel over a Claude Code session (claude -p, stream-json)</Description>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(WebView2)' == 'true'">
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <DefineConstants>$(DefineConstants);WEBVIEW2</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(WebView2)' == 'true'">
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Tests/**" />
+  </ItemGroup>
+</Project>

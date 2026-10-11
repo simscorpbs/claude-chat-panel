@@ -1,0 +1,7 @@
+.build/
+.swiftpm/
+node_modules/
+bin/
+obj/
+*.tmp
+.DS_Store

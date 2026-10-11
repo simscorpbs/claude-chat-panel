@@ -1,0 +1,13 @@
+{
+  "name": "claude-chat-panel",
+  "version": "0.1.0",
+  "description": "A chat panel over a Claude Code session (claude -p, stream-json): the session library and a test server",
+  "type": "module",
+  "license": "MIT",
+  "main": "claude-chat.ts",
+  "engines": { "node": ">=22.6" },
+  "scripts": {
+    "serve": "node serve.ts",
+    "test": "node --test test.ts"
+  }
+}
